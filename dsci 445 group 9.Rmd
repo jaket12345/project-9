@@ -1,0 +1,16 @@
+---
+title: "DSCI 445 GROUP 9 PROJECT"
+output: html_document
+date: '2022-11-07'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+top2021 <- read.csv("top_hits_of_2021.csv") 
+
+
+```
