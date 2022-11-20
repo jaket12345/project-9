@@ -6,11 +6,70 @@ date: '2022-11-07'
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+set.seed(445) 
 ```
+
+Introduction 
+
+`
+
+
+
+
+`
+
+Prediction and inference questions 
+
+`
+
+
+
+`
+
+Methodology 
+
+1. data preparation \  
+2. data summaries \ 
+3. analysis \ 
+
+1. DATA PREPARATION 
+
+From spotify, we picked a playlist called “top hits of the 2021” that had 500 songs of different across different genres and artists, and converted the properties of the songs (song name, artist, loudness, tempo, etc) into an excel file using Exportify. 
 
 ```{r}
 
 top2021 <- read.csv("top_hits_of_2021.csv") 
 
+```
+
+
+```{r}
+library(dplyr) 
+library(tidyr) 
+
+# removing unwanted variables
+
+top2021 <- select(top2021, -c('ï..Spotify.ID', 'Artist.IDs', 'Album.Name', 'Release.Date', 'Duration..ms.', 'Added.At', 'Added.By', 'Key', 'Mode', 'Instrumentalness', 'Time.Signature'))
+
+# removing missing values 
+
+top2021 <- na.omit(top2021) 
+
+# change character variables to factor variables 
+
+top2021$Track.Name <- as.factor(top2021$Track.Name)
+top2021$Artist.Name.s. <- as.factor(top2021$Artist.Name.s.)
+top2021$Genres <- as.factor(top2021$Genres) 
+
+# change loudness variable negative data to positive 
+
+top2021$Loudness <- abs(top2021$Loudness) 
+
+# changing data in genres variable 
+
+ 
 
 ```
+
+
