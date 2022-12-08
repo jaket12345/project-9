@@ -37,3 +37,24 @@ Q1: TRENDS IN BILLION - STREAMS TRACKS
 ```
 
 
+
+
+
+```{r}
+
+for(x in 1:2825){ #length of your music dataframes ( number of rows)
+  
+  #the value of Genres in the origial dataframe is actually just one big character variable, which is why its harder to get just the first genre out
+  #musicGenres is the "list" of genres that are in the original dataframe
+  #dataframe will be the name of your music dataframe
+  #MainGenre is the main genre that it pulls from the musicGenres variable
+  
+ musicGenres <- dataframe[x,11]  #puts genres into variable. The 11 is the column that the gerne variable is in.
+ 
+ musicGenres <- as.data.frame(musicGenres) #turns it into a dataframe
+ 
+ MainGenre <- musicGenres %>% separate(musicGenres, c("Main Genre"), sep = ',') # grabs first genre in list
+  MainGenre
+dataframe[x,11] <- MainGenre #sets first genre to genre value in dataframe
+}
+```
