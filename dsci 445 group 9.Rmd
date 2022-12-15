@@ -277,9 +277,49 @@ With an attempt at an unsupervised learning model, the k-clustering resulted wit
 
 
 ## DATA SET 2 : 
+Research Question: How was Rap changed since it's creation in the 70's?
 
+```{r}
+# Read In Data Set (Included in Main Project 9 Repository)
+top2021 <- read.csv("top_hits_of_2021.csv") 
 
+# Making Decade a Factor / Rename Datset to "Rap"
+rap <- read_csv("1980-2019 hip hop.csv",
+                col_types = cols(Decade = col_factor(levels = c("80", "90", "00", "10"))))
+```
+# Data Summaries
 
+```{r}
+# MLR model
+music.lm <- lm(Popularity ~ ., data = rap[,4:15]) # modeling all variables against Popularity
+# Model Summary
+summary(music.lm)
+```
+# Exploratory Data Analysis (Plots)
+
+```{r}
+# Scatterplots investigating relationships to music popularity
+ggplot(rap, aes(x = Popularity, y = Danceability)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = T) +
+  theme_classic()
+
+ggplot(rap, aes(x = Popularity, y = Valence, color = Decade)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F) +
+  theme_classic()
+
+ggplot(rap, aes(x = Popularity, y = Energy, color = Decade)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F) +
+  theme_classic()
+ 
+# Barplot Showing Tempo over Decades
+ggplot(rap, aes(x = Decade, y = Tempo)) +
+  geom_bar(stat="identity") +
+  ggtitle("Rap Music's Tempo by Decade") +
+  theme_classic()
+```
 
 
 
