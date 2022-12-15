@@ -38,7 +38,7 @@ According to Spotify’s Web Application Programming Interface (API) developer g
 ● Genre: Classifies music by it’s genre as determined on Spotify.\ 
 ● Mode: “Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.” \ 
 
-## DATA SET 1: TRENDS IN BILLION - STREAMED TRACKS
+## DATA SET 1 (Jay): TRENDS IN BILLION - STREAMED TRACKS
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -276,8 +276,7 @@ With an attempt at an unsupervised learning model, the k-clustering resulted wit
 
 
 
-## DATA SET 2 : 
-Research Question: How was Rap changed since it's creation in the 70's?
+## DATA SET 2 (Jake): How was Rap changed since it's creation in the 70's?
 
 -[1980-2019 hip hop.csv](https://github.com/dsci445-csu/project-9/files/10241196/1980-2019.hip.hop.csv)
 ```{r}
@@ -351,7 +350,7 @@ Notable trends from EDA plots
 - Valence and Energy Decrease as Popularity Increases across most Decades
 
 
-## DATA SET 3 : 
+## DATA SET 3 (Jack): 
 
 
 
