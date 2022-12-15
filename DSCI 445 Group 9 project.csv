@@ -1,0 +1,134 @@
+Spotify Music Analytics
+"By Jay Jemila, Jacob Thompson, Jack Deere"
+Overview of Our Goals
+Jay: To look for trends and similarities in tracks that have at least
+one billion streams (on Spotify).
+Jacob: To look for trends and changes in popular Rap music by
+decade and as a whole.
+Jack: Looking for trends in different genres and comparing them
+to each other.
+Data Collection
+Using Exportify we were able to extract information about songs contained within a playlist. These files
+contain numerous variables that we were able to use to investigate our questions of interest.
+Our Variables,
+According to Spotify’s Web Application Programming Interface (API) developer guide,
+●,"Popularity: 0 to 100 scale, attempting to quantify popularity of a song by total plays within the time since it’s release"
+●,Duration (ms): Length of song
+●,Danceability: “Describes how suitable a track is for dancing based on a combination of musical elements including
+,"tempo, rhythm stability, beat strength, and overall regularity.”"
+●,"Energy: “Represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and "
+,"noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale.”"
+●,Loudness: “The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track 
+,and are useful for comparing relative loudness of tracks.”
+●,"Tempo: “The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the "
+,"speed or pace of a given piece, and derives directly from the average beat duration.”"
+●,Valence: “Describes the musical positiveness conveyed by a track. Tracks with high valence sound more positive 
+,"(e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).”"
+●,Genre: Classifies music by it’s genre as determined on Spotify.
+●,"Mode: “Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is "
+,derived. Major is represented by 1 and minor is 0.”
+Trends in billion-streamed tracks,Analyzing spotify “billions” playlist ;,
+,Durations variable = (added date -,
+,release date),
+,●,majority of tracks from late 2010s
+,(2015-2020),
+,●,"Majority genre – dance pop (80),"
+,"pop (39), Canadian contemporary",
+,r&b (10) ,
+,●,majority of popularity between 75
+,and 90,
+,●,Highest popularity – 92 - sweater
+,weather (2013) by The,
+,Neighborhood – 3038 days,
+,●,Lowest popularity – 44 –
+,bohemian rhapsody remaster,
+,(2018) by Queen – 1006 days,
+●,Older songs have a longer
+,duration
+●,Shortest duration – 82 –
+,Montero (2021) by Lil Nas X –
+,17 days
+●,longest duration – 80 –
+,chasing cars (2006) by Snow
+,Patrol – 6051 days
+●,Artist with highest number of
+,billion-streams tracks – 9 - Ed
+,Sheeran 
+mlr on validation set;,
+●,Tempo is the only
+,significant variable
+●,Training error = 34.98
+●,Test error = 51.54
+Forward subset selection;,
+●,"Danceability, Liveness, Tempo variables"
+GAM;,
+●,Tempo is the only linear variable
+●,Training error = 25.49
+●,Test error = 53.11
+Basic Trends in Hip-Hop,,
+,"Analyzing Rap Music Top Hits, with equal representation of decades ",
+,(80’s - 10’s) using “I Love My _____’s Hip-Hop” playlists on Spotify,
+●,Popularity as a Response Variable,
+,○,As Rap gets more Popular:
+,■,Louder
+,■,Shorter Duration
+,■,Darker Tone
+Trends Across Decades in Hip-Hop,
+,Different Era’s of Rap have different 
+Characteristics,
+●,Tempo trends up over time
+●,Duration trends down over time
+●,Valence trends downward (Except the 90’s)
+●,Energy loosely trends up
+●,Acousticness loosely trends downward
+Kid Cudi,,
+Mac Miller,●,Longer Duration
+Hip Hop,,
+"Tyler, The Creator",●,Less Energy
+,●,Louder
+,●,Major Mode
+Hip Hop,
+Popularity v Energy,Popularity v Loudness
+Alt Hip Hop,
+●,Louder
+●,Less Speech
+●,More Valence
+Alt Hip Hop,
+Popularity v Valence,Popularity v Speechiness
+Conscious Hip Hop,
+●,Less Energy
+●,Major Mode
+●,Less Acousticness
+,Semetary,
+Underground Hip Hop,Shakewell,
+,●,More Energy
+,Xaviur Wulf,
+,●,Less Loud
+,Childish Gambino,
+Atlanta Hip Hop,Playboi Carti,
+,●,More Danceability
+,●,Louder
+,●,More Speech
+All Hip Hop,
+●,Longer Duration
+●,More Danceability
+●,Less Energy
+●,Louder
+All Hip Hop,
+Popularity v Danceability,Popularity v Energy
+Summary,
+"If we had more time, further research could have been done on various things:",
+●,Variables influencing rise in streaming 
+●,Comparing music statistics among different streaming platforms
+●,Comparing across all mainstream genres
+●,Comparing music across different languages
+Some problems we ran into while working with the data:,
+●,Trouble finding exact calculations for variables
+●,"Filtering, and combining datasets"
+●,Shaping the data to be used for models
+References
+"Ashrith. “What Makes a Song Likeable?” Medium, Towards Data Science, 22 Mar. 2019,"
+https://towardsdatascience.com/what-makes-a-song-likeable-dbfdb7abe404#:~:text=Spotify%20Audio%20Features&text=T
+"he%20Spotify%20Web%20API%20developer,beat%20strength%2C%20and%20overall%20regularity."
+"“Home: Spotify for Developers.”, https://developer.spotify.com/."
+"Exportify, https://exportify.net/."

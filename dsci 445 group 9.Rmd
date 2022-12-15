@@ -1,5 +1,5 @@
 ---
-title: "DSCI 445 GROUP 9 PROJECT"
+title: "DSCI 445 GROUP 9 PROJECT: SPOTIFY MUSIC ANALYTICS"
 output: html_document
 date: '2022-12-09'
 ---
@@ -11,34 +11,286 @@ set.seed(445)
 ```
 
 
-Introduction/ motivation 
+## Overview of Our Goals 
 
-`
+To look for trends and similarities in tracks that have at least 
+one billion streams (on Spotify). \ 
+To look for trends and changes in popular Rap music by 
+decade and as a whole. \ 
+Looking for trends in different genres and comparing them 
+to each other. \ 
+
+## Data Collection 
+
+Using Exportify we were able to extract information about songs contained within a playlist. These files contain numerous variables that we were able to use to investigate our questions of interest.
+
+## Variables 
+
+According to Spotify’s Web Application Programming Interface (API) developer guide;  \ 
+
+● Popularity: 0 to 100 scale, attempting to quantify popularity of a song by total plays within the time since it’s release \ 
+● Duration (ms): Length of song \ 
+● Danceability: “Describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.” \ 
+● Energy: “Represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale.” \ 
+● Loudness: “The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks.” \ 
+● Tempo: “The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece, and derives directly from the average beat duration.” \ 
+● Valence: “Describes the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).” \ 
+● Genre: Classifies music by it’s genre as determined on Spotify.\ 
+● Mode: “Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.” \ 
+
+## DATA SET 1: TRENDS IN BILLION - STREAMED TRACKS
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+set.seed(445) 
+
+library(dplyr) 
+library(tidyr) 
+
+library(psych)
+library(modeest) 
+library(dplyr)  
+
+library("ggplot2")                     
+library("GGally") 
+library(tidyverse) 
+library(tidymodels) 
+library(ISLR) 
+library(rsample) 
+library(gam)
+library(car) 
+library(caret)
+library(leaps) 
+library(ggplot2)  
+library(corrplot)  
+library(factoextra)  
+```
 
 
+Research question - looking for trends in songs with billions of streams  \ 
 
+# DATA PREPARATION 
 
-`
-
-Research questions 
-
-1. Trends in billion-streams tracks \   
-2. 
-3. 
-
-
-Q1: TRENDS IN BILLION - STREAMS TRACKS
-
+From spotify, I picked a playlist called “billion hits” that at the time included all songs that have reached 1 billion streams on the platform, and converted the properties of the songs (song name, artist, loudness, tempo, etc) into an excel file using the Exportify website.   
 
 ```{r}
 
- 
+billions <- read.csv("billions_club.csv") 
 
 ```
 
 
+```{r, error=FALSE} 
+
+# removing unwanted variables
+billions <- select(billions, -c('ï..Spotify.ID', 'Artist.IDs', 'Album.Name', 'Duration..ms.', 'Added.By', 'Key', 'Mode', 'Instrumentalness', 'Time.Signature'))   
+
+# change character variables to factor variables 
+billions$Track.Name <- as.factor(billions$Track.Name)
+billions$Artist.Name.s. <- as.factor(billions$Artist.Name.s.)
+
+# updating date variables 
+billions$Release.Date <- as.Date(billions$Release.Date)
+billions$Added.At <- as.Date(billions$Added.At) 
+
+# change loudness variable negative data to positive 
+billions$Loudness <- abs(billions$Loudness) 
+
+# removing missing values 
+billions <- na.omit(billions) 
+
+# creating duration variable - the time taken for a single song to reach a billion streams 
+billions$duration <- billions$Added.At - billions$Release.Date 
+
+# creating main genre variable with one genre 
+musicGenres <- billions$Genres
+musicGenres <- as.data.frame(musicGenres) 
+main_genre <- c() 
+
+main_genre <- musicGenres %>%
+  separate(musicGenres,c("Main.Genre"),",")   
+
+MAIN <- main_genre[['Main.Genre']] 
+billions$Main.Genre <- MAIN    
+  
+```
+
+# DATA SUMMARIES 
+
+```{r}
+
+# summary table 
+describe(billions) 
+
+# top 5 popular tracks 
+billions2 <- billions[order(-billions$Popularity),]  
+billions2 <- billions2[1:5,]  
+billions2 
+
+# top 5 popular genres 
+genre_groups <- billions %>%
+  group_by(Main.Genre) %>%
+  summarize(n=n()) 
+genre_groups 
+ 
+# artist with highest number of billion-streams tracks 
+mlv(billions$Artist.Name.s., method = "mfv")  
+
+billions3 <- billions[order(-billions$Popularity),] 
+billions3 <- billions3[billions3$Artist.Name.s. == "Ed Sheeran",]
+billions3 
+
+## tracks with longest and shortest duration 
+a <- billions[which.min(billions$duration),]
+b <- billions[which.max(billions$duration),]
+df1 <- bind_rows(a,b)    
+df1 
 
 
+# for (37) songs before 2006 (when Spotify was created), their upload date is the same as their release date. i had to create a new variable that includes updated release dates for them   
+
+billions$actualRelease <- billions$Release.Date # creating release date variable 
+spotify_date <- as.Date(c("2006-04-23"))  # creating spotify date 
+
+billions4 <- billions[billions$Release.Date < "2006-04-23",] # removing data to be edited
+billions4$actualRelease <- spotify_date # updating variable 
+
+billionsss <- rbind(billions[billions$Release.Date > "2006-04-23",],billions4) # creating new full dataframe with updated data  
+
+billionsss$duration <- billionsss$Added.At - billionsss$actualRelease # update duration variable 
+
+# 
+
+afterJul21 <- billionsss[billionsss$Added.At > "2021-07-21",] # removing data before playlist was made  
+
+# actual tracks with longest and shortest duration
+a <- afterJul21[which.min(afterJul21$duration),]
+b <- afterJul21[which.max(afterJul21$duration),] 
+df1 <- bind_rows(a,b)    
+df1 
+
+```
+
+From these summaries, we can deduce the following; \ 
+
+● Majority genre – dance pop (80), pop (39), Canadian contemporary r&b (10) \ 
+● Artist with highest number of billion-streams tracks – 9 - Ed Sheeran \ 
+● Highest popularity – 92 - sweater weather (2013) by The Neighborhood – duration of 3038 days \ 
+● Lowest popularity – 44 – bohemian rhapsody remaster (2018) by Queen – duration of 1006 days \ 
+
+Comparing the most popular and least popular song in the data set, we notice that the less popular song took less time to reach a billion streams, and was also released on the platform at a later date. Looking at graphs involving duration, year of release and popularity could help understand this phenomena.  \ 
+
+
+# EXPLORATORY DATA ANALYSIS 
+
+```{r} 
+
+# create data frame for numerical data to be analyzed   
+billions_data <- select(afterJul21, -c('Track.Name','Artist.Name.s.','Genres','Release.Date','Added.At','duration','actualRelease','Main.Genre'))    
+
+## the corr plot 
+M<-cor(billions_data)  
+corrplot(M, method="number")
+
+
+## data plots 
+plot(billions_data$Popularity, xlab = "song index", ylab = "popularity") 
+
+ggplot() + geom_point(aes(x = actualRelease, y = Popularity, col = Main.Genre), data = billions) + theme(legend.position ="none")   
+
+ggplot() + geom_point(aes(x = actualRelease, y = duration, col = Main.Genre), data = afterJul21) + theme(legend.position ="none")   
+
+```
+
+From the graphs, we can deduce the following; \ 
+● Majority of tracks from late 2010s (2015-2020) \  
+● Majority of popularity between 75 and 90 \ 
+● Older songs have a longer duration \  
+● Shortest duration – 82 – Montero (2021) by Lil Nas X – 17 days \  
+● longest duration – 80 – chasing cars (2006) by Snow Patrol – 6051 days \  
+
+
+
+```{r} 
+
+# validation sets  
+train <- sample(nrow(billions_data) * 0.7)
+train_set <- billions_data[train, ]
+test_set <- billions_data[-train, ] 
+
+## mlr regression 
+billions_mlr <- lm(Popularity ~., data = train_set) 
+summary(billions_mlr) 
+avPlots(billions_mlr) # The points that are labelled in each plot represent the 2 observations with the largest residuals and the 2 observations with the largest partial leverage. 
+
+predictt1 <- predict(billions_mlr, train_set) 
+train_mse1 <- mean((train_set$Popularity - predictt1) ^ 2) 
+train_mse1   
+
+predictt2 <- predict(billions_mlr, test_set) 
+test_mse1 <- mean((test_set$Popularity - predictt2) ^ 2) 
+test_mse1  
+
+
+# forward stepwise subset selection 
+
+step.model <- regsubsets(Popularity ~., data = train_set, nvmax = 8, method = "forward") 
+model_summary <- summary(step.model)  
+model_summary  
+
+plot(model_summary$adjr2) # results = go with 3 variables
+
+coef(step.model, id = 3) 
+
+
+## fit selected variables on a GAM # checking non-linear r/ships 
+gam_model <- gam(Popularity ~ s(Danceability) + s(Liveness) + s(Tempo), data = train_set) 
+summary(gam_model) 
+plot(gam_model) 
+
+# training error 
+pred <- predict(gam_model, train_set)
+train_mse <- mean((train_set$Popularity - pred) ^ 2) 
+train_mse 
+
+# evaluating on test set 
+preds <- predict(gam_model, test_set) 
+test_mse <- mean((test_set$Popularity - preds) ^ 2) 
+test_mse 
+
+## UNSUPERVISED LEARNING : k-clustering 
+fviz_nbclust(billions_data, kmeans,method = "wss") # choosing k 
+km.res <- kmeans(billions_data, 3, iter.max = 8, nstart = 1) 
+km.res 
+
+fviz_cluster(km.res,billions_data, ellipse.type = "norm", geom = "point")   
+
+
+```
+
+Tempo is the only significant variable from both multiple linear regression and the general linearized model. Their graphs tell us that when holding other variables at constant, song popularity increases with the increase in song tempo. \ 
+With an attempt at an unsupervised learning model, the k-clustering resulted with the clusters mostly overlapping, telling us that there was really no difference among the 3 groups of songs clustered together. \ 
+
+
+
+
+
+## DATA SET 2 : 
+
+
+
+
+
+
+## DATA SET 3 : 
+
+
+
+
+
+
+``` 
 
 ```{r}
 
