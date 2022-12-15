@@ -281,6 +281,27 @@ Research Question: How was Rap changed since it's creation in the 70's?
 
 -[1980-2019 hip hop.csv](https://github.com/dsci445-csu/project-9/files/10241196/1980-2019.hip.hop.csv)
 ```{r}
+# Seeds and Packages Needed
+set.seed(445) 
+library(dplyr) 
+library(tidyr) 
+library(psych)
+library(modeest) 
+library(dplyr)  
+library("ggplot2")                     
+library("GGally") 
+library(tidyverse) 
+library(tidymodels) 
+library(ISLR) 
+library(rsample) 
+library(gam)
+library(car) 
+library(caret)
+library(leaps) 
+library(ggplot2)  
+library(corrplot)  
+library(factoextra) 
+
 # Read In Data Set (Included in Main Project 9 Repository)
 top2021 <- read.csv("top_hits_of_2021.csv") 
 
