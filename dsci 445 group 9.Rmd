@@ -279,6 +279,7 @@ With an attempt at an unsupervised learning model, the k-clustering resulted wit
 ## DATA SET 2 : 
 Research Question: How was Rap changed since it's creation in the 70's?
 
+-[1980-2019 hip hop.csv](https://github.com/dsci445-csu/project-9/files/10241196/1980-2019.hip.hop.csv)
 ```{r}
 # Read In Data Set (Included in Main Project 9 Repository)
 top2021 <- read.csv("top_hits_of_2021.csv") 
@@ -295,6 +296,10 @@ music.lm <- lm(Popularity ~ ., data = rap[,4:15]) # modeling all variables again
 # Model Summary
 summary(music.lm)
 ```
+Notable Summary Stats
+- Significant Variables at $\alpha$ = .05: Duration, Danceability, Energy, Loudness, and Valence
+  - Variables to focus on for EDA
+
 # Exploratory Data Analysis (Plots)
 
 ```{r}
@@ -320,7 +325,9 @@ ggplot(rap, aes(x = Decade, y = Tempo)) +
   ggtitle("Rap Music's Tempo by Decade") +
   theme_classic()
 ```
-
+Notable trends from EDA plots
+- Tempo Increasing over time
+- Valence and Energy Decrease as Popularity Increases across most Decades
 
 
 ## DATA SET 3 : 
