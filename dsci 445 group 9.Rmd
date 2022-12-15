@@ -384,7 +384,11 @@ test_mse
 
 ```
 - 3 Variables Optimal per Subset Selection
-
+- Significant Variables
+  - Tempo
+  - Valence
+- Train MSE = 128.2
+- Test MSE = 188.5
 
 ## DATA SET 3 (Jack): 
 
