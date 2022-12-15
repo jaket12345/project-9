@@ -13,12 +13,14 @@ set.seed(445)
 
 ## Overview of Our Goals 
 
-To look for trends and similarities in tracks that have at least 
-one billion streams (on Spotify). \ 
-To look for trends and changes in popular Rap music by 
-decade and as a whole. \ 
-Looking for trends in different genres and comparing them 
-to each other. \ 
+Jay: To look for trends and similarities in tracks that have at least 
+one billion streams (on Spotify).
+
+Jake: To look for trends and changes in popular Rap music by 
+decade and as a whole.
+
+Jack: Looking for trends in different genres and comparing them 
+to each other.
 
 ## Data Collection 
 
