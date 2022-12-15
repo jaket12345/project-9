@@ -287,8 +287,8 @@ library(tidyr)
 library(psych)
 library(modeest) 
 library(dplyr)  
-library("ggplot2")                     
-library("GGally") 
+library(ggplot2)                     
+library(GGally) 
 library(tidyverse) 
 library(tidymodels) 
 library(ISLR) 
@@ -299,7 +299,8 @@ library(caret)
 library(leaps) 
 library(ggplot2)  
 library(corrplot)  
-library(factoextra) 
+library(factoextra)
+library(mgcv)
 
 # Read In Data Set (Included in Main Project 9 Repository)
 top2021 <- read.csv("top_hits_of_2021.csv") 
@@ -307,12 +308,15 @@ top2021 <- read.csv("top_hits_of_2021.csv")
 # Making Decade a Factor / Rename Datset to "Rap"
 rap <- read_csv("1980-2019 hip hop.csv",
                 col_types = cols(Decade = col_factor(levels = c("80", "90", "00", "10"))))
+                
+# Only Include Numeric Variables for Modeling
+rap_data <- rap[,4:15]
 ```
 # Data Summaries
 
 ```{r}
 # MLR model
-music.lm <- lm(Popularity ~ ., data = rap[,4:15]) # modeling all variables against Popularity
+music.lm <- lm(Popularity ~ ., data = rap_data) #modeling all variables against Popularity
 # Model Summary
 summary(music.lm)
 ```
@@ -348,6 +352,38 @@ ggplot(rap, aes(x = Decade, y = Tempo)) +
 Notable trends from EDA plots
 - Tempo Increasing over time
 - Valence and Energy Decrease as Popularity Increases across most Decades
+
+# GAM Model
+
+```{r}
+# split into test and training sets
+train <- sample(nrow(rap_data) * 0.75)
+train_set <- rap_data[train, ]
+test_set <- rap_data[-train, ] 
+
+# subset selection
+step.model <- regsubsets(Popularity ~., data = train_set, nvmax = 8, method = "forward") 
+model_summary <- summary(step.model)  
+model_summary  
+plot(model_summary$adjr2)
+
+## fit selected variables to GAM
+gam1 <- gam(Popularity ~ s(Valence) + s(Tempo) + s(Danceability), data = train_set) 
+summary(gam1) 
+plot(gam1) 
+
+# calculate training error 
+pred <- predict(gam_model, train_set)
+train_mse <- mean((train_set$Popularity - pred) ^ 2) 
+train_mse 
+
+# evaluating on test set 
+preds <- predict(gam_model, test_set) 
+test_mse <- mean((test_set$Popularity - preds) ^ 2) 
+test_mse 
+
+```
+- 3 Variables Optimal per Subset Selection
 
 
 ## DATA SET 3 (Jack): 
