@@ -812,4 +812,15 @@ dataframe[x,11] <- MainGenre #sets first genre to genre value in dataframe
 
 
 # Summary: 
-# Some things 
+# If we had more time, further research could have been done on various things:
+# Variables influencing rise in streaming 
+# Comparing music statistics among different streaming platforms
+# Comparing across all mainstream genres
+# Comparing music across different languages
+
+
+# Some problems we ran into while working with the data:
+# Trouble finding exact calculations for variables
+# Filtering, and combining datasets
+# Shaping the data to be used for models
+
