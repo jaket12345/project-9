@@ -393,6 +393,11 @@ test_mse
 
 ## DATA SET 3 (Jack): What are the different trends in the hip hop genres, and can you predict if a hip hop song will be popular?
 
+
+
+
+
+# I am very passionate about music and love making and discovering new music that I like. I know that everyone has a different and unique taste in music.  My music taste is not very common, and I listen to some very odd music.  I often thought about what makes a song unique and appealing to different people. Also knowing what makes a song popular would be very cool. There is obviously a difference between rap and jazz, but it would be cool to quantify the differences between the music. Luckily there is a website called Exportify that does exactly that, and it's extremely easy to use. You can log in with your Spotify account, and export any of your playlists as a .csv file. It gives you 23 different variables for each song, including tempo, duration, acousticness, artist name, release date, and many more. This allows for a lot of flexibility on what you can do with these playlists, as well as opportunities for a very in-depth analysis of each song. I made a 3000 song playlist with a variety of different genres and its popularity is widely varied.  And exported it to use for my data. It has around 900 hip hop songs in it that i used for my data. I filtered my large data set down to only songs that had hip hop as its genre. I then filtered the 900 hip hop songs into different subgenres of hip hop, including alternative, atlanta, underground, conscious, detroit, and normal hip hop. These songs were released from the years 2000 - 2022. I first started by running a linear model with Popularity as the response and all of the numerical variables as the response, which includes, Duration, Danceability, Energy, Key, Loudness, Mode, Speechiness, Acousticness, Instrumentalness, Liveness, Valence, Tempo, and Time Signature. This was to look for trends within the datasets. 
 # Always set seed no matter what
 ```{r}
 
