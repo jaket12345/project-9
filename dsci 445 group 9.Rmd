@@ -277,7 +277,11 @@ With an attempt at an unsupervised learning model, the k-clustering resulted wit
 
 
 
-## DATA SET 2 (Jake): How was Rap changed since it's creation in the 70's?
+## DATA SET 2 (Jake Thompson): How was Rap changed since it's creation in the 70's?
+
+Why I wanted to explore this topic: 
+
+I wanted to investigate different variables across rap music as it is my favorite genre of music and everyone in my group was interested in investigating something different relating to music. This project and idea seemed like an opportunity to combine many of my favorite things with music, rap, and data analysis. I wanted to look at relationships across decades because it could show interesting differnces in music as time goes on and also potentially identify trends that may be specific to certain decades. As my analysis went on I focused in on popularity as my main dependent variable as it is more interesting to see what makes songs popular.
 
 -[1980-2019 hip hop.csv](https://github.com/dsci445-csu/project-9/files/10241196/1980-2019.hip.hop.csv)
 ```{r}
