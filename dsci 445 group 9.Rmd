@@ -789,6 +789,8 @@ plot(svmMod)
 # Svm also bad. Seems like you cant really predict it 
 
 
+# I tried another model that used ridge regression, and it also had a 9% prediction accuracy. Looking at the residual plots shows the same thing as the glm model. I made another model that does lasso regression, and it had the same prediction accuracy. I made another model that was a support vector machine, and the prediction accuracy was around 5%. 
+
 
 # code that was used to get rid of all but the main genre in the variable 
 
@@ -810,6 +812,18 @@ for(x in 1:2825){ #length of your music dataframes ( number of rows)
 dataframe[x,11] <- MainGenre #sets first genre to genre value in dataframe
 }
 ```
+
+#  My theory is that the data is so spread, that even though there are statistically significant variables and trends you can see, you cannot accurately predict the popularity values. Another theory is that there aren't enough data points for the model, but 850 seems like enough. 
+
+ # I log transformed the variables and it was still below 10% accuracy. To make these prediction models accurate, I believe I would have to test if each variable being log transformed or squared would change its accuracy. I did not have time to do that, but that would be my next step. I don't know how much transforming the data would have helped the model ,but it definitely would have increased the 8% average accuracy. My results have been very informative. I found some very clear trends in the subgenres of hiphop as well as extremely clear trends between all hip hop genres. My prediction models were atrocious, but It might have been due to non linear data, as the residual plots showed that the data violated that assumption. Overall, I was able to identify the trends between the subgenres, and identify the problems in the data that would inhibit the accuracy of a prediction model using the data.
+
+
+
+
+
+
+
+# End of Jack Section
 
 
 # Summary: 
