@@ -392,14 +392,404 @@ test_mse
 - Train MSE = 128.2
 - Test MSE = 188.5
 
-## DATA SET 3 (Jack): 
+## DATA SET 3 (Jack): What are the different trends in the hip hop genres, and can you predict if a hip hop song will be popular?
+
+# Always set seed no matter what
+```{r}
+
+set.seed(445)
+
+```
+# You need these Datasets downloaded for this code to run: detHH, altHH, atlHH, undHH, conHH, allHH, hiphop
+# If you do not have all of those datasets it will not work
+
+# Libraries 
+```{r}
+library(ggplot2)
+library(FactoClass)
+library(e1071)
+library(glmnet)
+library(stats)
+
+
+```
+
+# This is the function i use to determing the prediction accuracy of the model
+```{r}
+predAcc <- function(validation, pred, df) {
+  SSE <- sum((pred - validation)^2)
+  SST <- sum((validation - mean(validation))^2)
+  R_square <- 1 - SSE / SST
+  RMSE = sqrt(SSE/nrow(df))
+  
+  
+  data.frame(
+  RMSE = RMSE,
+  Rsquare = R_square
+  
+ 
+)
+  
+  }
+
+
+
+
+```
 
 
 
 
 
+# Making The Data Sets
+# There was much much more dataset transformation but I would have to repeat it to show it in the code which would take hours
 
-``` 
+```{r}
+
+
+detHH <- read.csv("detHH.csv")#dataset with all of the songs with their main genre being detroit hip hop
+atlHH <- read.csv("atlHH.csv") #dataset with all of the songs with their main genre being atlanta hip hop
+altHH <- read.csv("altHH.csv") #dataset with all of the songs with their main genre being alternative hip hop
+hiphop <- read.csv("hiphop.csv") #dataset with all of the songs with their main genre being hip hop
+conHH <- read.csv("conHH.csv") #dataset with all of the songs with their main genre being conscious hip hop
+undHH <- read.csv("undHH.csv") #dataset with all of the songs with their main genre being underground hip hop
+allHH <- read.csv("allHH.csv") #dataset with all of the songs with their main genre being underground hip hop
+
+detHH <- detHH[,-1]
+atlHH <- atlHH[,-1]
+altHH <- altHH[,-1]
+hiphop <- hiphop[,-1]
+conHH <- conHH[,-1]
+undHH <- undHH[,-1]
+allHH <- allHH[,-1]
+
+allHH <- rbind(allHH,detHH)
+
+
+```
+
+
+# Linear Model of hiphop.csv
+
+```{r}
+hiphop <- as.data.frame(sapply(hiphop, as.numeric))
+
+
+
+hhModel <- lm(Popularity~., data = hiphop)
+summary(hhModel)
+
+
+
+```
+
+
+# Graphs that show the stat sig (statistically significant) variables trends
+
+```{r}
+
+ggplot(data = hiphop, aes(x = Popularity, y =Energy)) + geom_point()  + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Energy")
+
+ggplot(data = hiphop, aes(x = Popularity, y =Loudness)) + geom_point()  + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Loudness")
+
+
+```
+
+# Linear Model of altHH.csv
+
+```{r}
+altMod <- lm(Popularity~.,data = altHH)
+
+summary(altMod)
+
+
+
+```
+
+
+
+# Graphs that show the stat sig (statistically significant) variables trends
+
+```{r}
+
+ggplot(data = altHH, aes(x = Popularity, y =Valence)) + geom_point()  + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Valence")
+
+ggplot(data = altHH, aes(x = Popularity, y =Speechiness)) + geom_point()  + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Speechiness")
+
+
+```
+
+
+
+# Linear Model of conHH.csv
+
+```{r}
+
+conMod <- lm(Popularity~.,data = conHH)
+
+summary(conMod)
+
+
+```
+
+
+
+# Graphs that show the stat sig (statistically significant) variables trends
+
+```{r}
+
+ggplot(data = altHH, aes(x = Popularity, y =Energy)) + geom_point()  + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Energy")
+
+ggplot(data = altHH, aes(x = Popularity, y =Mode)) + geom_point()  + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Mode")
+
+
+```
+
+
+
+# Linear Model of undHH.csv
+
+```{r}
+
+
+undMod <- lm(Popularity~.,data = undHH)
+
+summary(undMod)
+
+
+
+```
+
+
+
+
+# Linear Model of atlHH.csv
+
+```{r}
+
+atlMod <- lm(Popularity~.,data = atlHH)
+
+summary(atlMod)
+
+
+
+
+```
+
+
+
+# Graphs that show the stat sig (statistically significant) variables trends
+
+```{r}
+ggplot(data = atlHH, aes(x = Popularity, y = Loudness)) + geom_point() + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Loudness")
+
+ggplot(data = atlHH, aes(x = Popularity, y = Speechiness)) + geom_point() + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Specchiness")
+
+
+
+```
+
+
+
+
+# Linear Model of allHH.csv
+
+```{r}
+
+
+allHHMod <- lm(Popularity~., data = allHH)
+
+summary(allHHMod)
+ 
+
+plot(allHHMod)
+
+```
+
+
+
+# Graphs that show the stat sig (statistically significant) variables trends
+
+```{r}
+
+ggplot(data = allHH, aes(x = Popularity, y = Danceability)) + geom_point() + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Danceability")
+
+ggplot(data = allHH, aes(x = Popularity, y = Energy)) + geom_point() + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Energy")
+
+ggplot(data = allHH, aes(x = Popularity, y =Loudness)) + geom_point() + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Loudness")
+
+
+```
+
+
+
+# Linear Model of detHH.csv
+
+```{r}
+
+detMod <- lm(Popularity~., detHH)
+
+summary(detMod)
+
+
+
+```
+
+# Graphs that show the stat sig (statistically significant) variables trends
+
+```{r}
+
+ggplot(data = detHH, aes(x = Popularity, y = Speechiness)) + geom_point() + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Speechiness")
+
+ggplot(data = detHH, aes(x = Popularity, y = Acousticness)) + geom_point() + geom_smooth(method='lm', formula= y~x) + ggtitle(" Popularity v Acousticness")
+
+
+
+```
+
+
+Prediction
+
+
+# Splitting the data and creatign a glm model
+```{r}
+trainHH <- allHH[1:668,]
+testHH <- allHH[668:835,]
+
+hhGLM <- glm(Popularity~., data = trainHH)
+
+summary(hhGLM)
+
+
+```
+
+# Finding the prediction accuracy of the model
+
+```{r}
+
+predictions <- predict(hhGLM,testHH, interval = "confidence")
+predictions
+
+
+predAcc(testHH$Popularity,predictions, testHH)
+
+
+
+```
+
+# 9% prediction accuracy...
+# Very bad, cannot use glm for prediction model
+
+
+# makign a ridge rregression model and testing its pred accuracy
+
+# i commented this out because i got what seems like a unfixable error. tried close to everything and nothing fixed it. the lasso regression is also commented out. It ran one time each before it stopped working, and I was able to get the pred accuracy.
+```{r}
+#modelTrain=model.matrix (Popularity~.,trainHH)[]
+#dim(modelTrain)
+
+#popTrain=trainHH$Popularity
+
+
+#xtest=model.matrix (Popularity~.,testHH)[]
+
+#ytest=testHH$Popularity
+
+
+
+#cv.out=cv.glmnet (modelTrain,popTrain,alpha =0)
+
+
+#bestlam=cv.out$lambda.min
+
+
+#model =glmnet(modelTrain,popTrain,alpha=0,lambda=bestlam)
+
+
+#model$beta
+
+
+#pred=predict(model,s=bestlam ,newx=xtest)
+
+#dim(ytest)
+#dim(pred)
+#predAcc(ytest, pred, testHH)
+
+```
+
+# Less than 10% pred accuracy
+# Ridge Regression also not good
+
+
+
+
+
+# Making a lasso regresssion model and testing it for its pred accuracy
+```{r}
+# modelTrain<-model.matrix (Popularity~.,trainHH)
+# 
+# popTrain<-trainHH$Popularity
+# 
+# 
+# xtest=model.matrix (Popularity~.,testHH)
+# 
+# ytest<-testHH$Popularity
+# 
+# 
+# 
+# cv.out <-cv.glmnet (modelTrain,popTrain,alpha =1)
+# 
+# 
+# bestlam<-cv.out$lambda.min
+# 
+# 
+# model <- glmnet(modelTrain,popTrain,alpha=1,lambda=bestlam)
+# 
+# 
+# model$beta
+# 
+# 
+# pred <- predict(model,s=bestlam ,newx=xtest)
+# 
+# 
+# predAcc(ytest, pred, testHH)
+# 
+# 
+
+
+```
+# Less than 10% pred accuracy
+# Lasso Regression is also bad
+
+
+
+# Making a suport vector machine model and finding the pred accuracy
+```{r}
+
+
+tuneCost <- tune(svm, Popularity~ ., data = trainHH, kernel = "polynomial", ranges = list(cost = 10^seq(-2, 
+    1, by = 0.25)))
+
+
+summary(tuneCost)
+svmMod <- svm(Popularity~ Loudness + Energy + Duration..ms. + Danceability, kernel = "radial", data = trainHH,  cost = tuneCost$best.parameters$cost)
+predictions <- predict(svmMod, testHH)
+
+
+predAcc(testHH$Popularity,predictions, testHH)
+
+
+
+plot(svmMod)
+
+```
+
+# 5% pred accuracy rate
+# Svm also bad. Seems like you cant really predict it 
+
+
+
+# code that was used to get rid of all but the main genre in the variable 
 
 ```{r}
 
@@ -419,3 +809,7 @@ for(x in 1:2825){ #length of your music dataframes ( number of rows)
 dataframe[x,11] <- MainGenre #sets first genre to genre value in dataframe
 }
 ```
+
+
+# Summary: 
+# Some things 
