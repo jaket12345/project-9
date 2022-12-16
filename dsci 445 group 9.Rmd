@@ -19,8 +19,7 @@ one billion streams (on Spotify).
 Jake: To look for trends and changes in popular Rap music by 
 decade and as a whole.
 
-Jack: Looking for trends in different genres and comparing them 
-to each other.
+Jack: Looking for trends in different hip hop genres and seeing if you can predict the popularity of hip hop songs
 
 ## Data Collection 
 
@@ -31,12 +30,12 @@ Using Exportify we were able to extract information about songs contained within
 According to Spotify’s Web Application Programming Interface (API) developer guide;  \ 
 
 ● Popularity: 0 to 100 scale, attempting to quantify popularity of a song by total plays within the time since it’s release \ 
-● Duration (ms): Length of song \ 
-● Danceability: “Describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.” \ 
-● Energy: “Represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale.” \ 
-● Loudness: “The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks.” \ 
-● Tempo: “The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece, and derives directly from the average beat duration.” \ 
-● Valence: “Describes the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).” \ 
+● Duration (ms): Length of song \ Values from 0-1
+● Danceability: “Describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.” \ 0-1
+● Energy: “Represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale.” \ Values from 0-1
+● Loudness: “The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks.” \  Values from -15-0
+● Tempo: “The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece, and derives directly from the average beat duration.” \ 0-200
+● Valence: “Describes the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).” \ Values from 0-1
 ● Genre: Classifies music by it’s genre as determined on Spotify.\ 
 ● Mode: “Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.” \ 
 
