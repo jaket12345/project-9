@@ -308,8 +308,7 @@ library(factoextra)
 library(mgcv)
 
 # Making Decade a Factor / Rename Datset to "Rap"
-rap <- read_csv("1980-2019 hip hop.csv",
-                col_types = cols(Decade = col_factor(levels = c("80", "90", "00", "10"))))
+rap <- read_csv("1980-2019 hip hop.csv")
                 
 # Only Include Numeric Variables for Modeling
 rap_data <- rap[,4:15]
