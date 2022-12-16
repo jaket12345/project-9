@@ -401,6 +401,8 @@ set.seed(445)
 ```
 # You need these Datasets downloaded for this code to run: detHH, altHH, atlHH, undHH, conHH, allHH, hiphop
 # If you do not have all of those datasets it will not work
+# ALL of these data sets are included in hiphop Datasets-JackDeere
+# Please download them and have them
 
 # Libraries 
 ```{r}
